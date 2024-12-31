@@ -1,3 +1,4 @@
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain.RepositoriyInterfaces;
@@ -21,7 +22,7 @@ public partial interface IRepositoryDbContext
 
     Task<Int32> SaveChangesAsync(CancellationToken cancellationToken = default);
     #endregion
-    //
-    // public DbSet<User> Users { get; set; }
-    // public DbSet<Book> Books { get; set; }
+    
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Category> Categories { get; set; }
 }

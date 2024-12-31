@@ -1,4 +1,5 @@
 using System.Reflection;
+using Domain.Entities;
 using Domain.RepositoriyInterfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,9 +25,9 @@ public sealed class RepositoryDbContext : DbContext, IRepositoryDbContext
         // }
         optionsBuilder.UseNpgsql("DATABASE_CONNECTION_STRING");
     }
-    //
-    // public DbSet<User> Users { get; set; }
-    // public DbSet<Book> Books { get; set; }
+    
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Category> Categories { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryDbContext).Assembly);
 }
