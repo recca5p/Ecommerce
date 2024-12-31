@@ -1,4 +1,5 @@
 using System.Reflection;
+using Domain.Base;
 using Domain.Entities;
 using Domain.RepositoriyInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -30,4 +31,34 @@ public sealed class RepositoryDbContext : DbContext, IRepositoryDbContext
     public DbSet<Category> Categories { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryDbContext).Assembly);
+
+    public override int SaveChanges()
+    {
+        ApplyAuditInfo();
+        return base.SaveChanges();
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        ApplyAuditInfo();
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void ApplyAuditInfo()
+    {
+        foreach (var entry in ChangeTracker.Entries())
+        {
+            if (entry.Entity is AuditEntity<long> entity)
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entity.CreatedDate = DateTime.UtcNow;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entity.UpdatedDate = DateTime.UtcNow;
+                }
+            }
+        }
+    }
 }
