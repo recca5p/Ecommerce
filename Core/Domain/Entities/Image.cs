@@ -10,12 +10,10 @@ public class Image : AuditEntity<long>
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long ImageId { get; set; }
 
-    [ForeignKey(nameof(Product))]
     public long? ProductId { get; set; }
 
     public virtual Product Product { get; set; }
 
-    [ForeignKey(nameof(ProductVariant))]
     public long? VariantId { get; set; }
 
     public virtual ProductVariant ProductVariant { get; set; }

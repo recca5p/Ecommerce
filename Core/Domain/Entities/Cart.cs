@@ -10,7 +10,6 @@ public class Cart : AuditEntity<long>
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long CartId { get; set; }
 
-    [ForeignKey(nameof(User))]
     public long UserId { get; set; }
 
     public virtual User User { get; set; }

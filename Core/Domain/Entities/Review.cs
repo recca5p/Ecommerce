@@ -10,12 +10,10 @@ public class Review : AuditEntity<long>
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long ReviewId { get; set; }
 
-    [ForeignKey(nameof(User))]
     public long UserId { get; set; }
 
     public virtual User User { get; set; }
 
-    [ForeignKey(nameof(Product))]
     public long ProductId { get; set; }
 
     public virtual Product Product { get; set; }

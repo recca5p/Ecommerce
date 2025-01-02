@@ -10,12 +10,10 @@ public class OrderDetail : AuditEntity<long>
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long OrderDetailId { get; set; }
 
-    [ForeignKey(nameof(Order))]
     public long OrderId { get; set; }
 
     public virtual Order Order { get; set; }
 
-    [ForeignKey(nameof(ProductVariant))]
     public long VariantId { get; set; }
 
     public virtual ProductVariant ProductVariant { get; set; }

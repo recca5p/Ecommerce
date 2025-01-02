@@ -10,7 +10,6 @@ public class ProductVariant : AuditEntity<long>
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long VariantId { get; set; }
 
-    [ForeignKey(nameof(Product))]
     public long ProductId { get; set; }
 
     public virtual Product Product { get; set; }

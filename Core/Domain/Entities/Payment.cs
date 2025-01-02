@@ -10,7 +10,6 @@ public class Payment : AuditEntity<long>
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long PaymentId { get; set; }
 
-    [ForeignKey(nameof(Order))]
     public long OrderId { get; set; }
 
     public virtual Order Order { get; set; }

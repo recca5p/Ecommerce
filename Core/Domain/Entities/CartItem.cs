@@ -10,12 +10,10 @@ public class CartItem : AuditEntity<long>
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long CartItemId { get; set; }
 
-    [ForeignKey(nameof(Cart))]
     public long CartId { get; set; }
 
     public virtual Cart Cart { get; set; }
 
-    [ForeignKey(nameof(ProductVariant))]
     public long VariantId { get; set; }
 
     public virtual ProductVariant ProductVariant { get; set; }

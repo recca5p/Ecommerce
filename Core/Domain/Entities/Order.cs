@@ -10,7 +10,6 @@ public class Order : AuditEntity<long>
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long OrderId { get; set; }
 
-    [ForeignKey(nameof(User))]
     public long UserId { get; set; }
 
     public virtual User User { get; set; }

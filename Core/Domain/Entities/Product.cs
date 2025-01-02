@@ -16,7 +16,6 @@ public class Product : AuditEntity<long>
 
     public string Description { get; set; }
 
-    [ForeignKey(nameof(Category))]
     public long CategoryId { get; set; }
 
     public virtual Category Category { get; set; }
