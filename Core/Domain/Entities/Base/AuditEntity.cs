@@ -4,6 +4,6 @@ public abstract class AuditEntity<TKey> : DeleteEntity, IAuditEntity
 {   
     public Int64 CreatedById { get; set; }
     public DateTime CreatedDate { get; set; }   
-    public Int64? UpdateById { get; set; }
+    public Int64? UpdatedById { get; set; }
     public DateTime? UpdatedDate { get; set; } 
 }
