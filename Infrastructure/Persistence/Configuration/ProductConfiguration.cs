@@ -15,7 +15,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Description).IsRequired(false);
         builder.Property(x => x.IsDeleted).IsRequired().HasDefaultValue(false);
         builder.Property(_ => _.CreatedById).IsRequired();
-        builder.Property(_ => _.CreatedDate).IsRequired().HasDefaultValueSql("GETDATE()");
+        builder.Property(_ => _.CreatedDate).IsRequired();
         builder.Property(_ => _.UpdatedById).IsRequired(false);
         builder.Property(_ => _.UpdatedDate).IsRequired(false);
 
