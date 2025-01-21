@@ -27,7 +27,7 @@ public sealed class RepositoryDbContext : DbContext, IRepositoryDbContext
         optionsBuilder.UseNpgsql("DATABASE_CONNECTION_STRING");
     }
     
-    public DbSet<Product> Products { get; set; }
+    public DbSet<Product?> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryDbContext).Assembly);

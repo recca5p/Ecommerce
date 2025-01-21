@@ -1,4 +1,8 @@
+using AutoMapper;
+using Contract.DTOs.Request;
 using Contract.DTOs.Response;
+using Domain.Entities;
+using Domain.Exceptions;
 using Domain.RepositoriyInterfaces;
 using Services.Abstraction;
 
@@ -7,52 +11,57 @@ namespace Services;
 internal sealed class ProductService : IProductService
 {
     private readonly IRepositoryManager _repositoryManager;
-    
-    public ProductService(IRepositoryManager repositoryManager) => _repositoryManager = repositoryManager;
+    private readonly IMapper _mapper;
+
+    public ProductService(IRepositoryManager repositoryManager, IMapper mapper)
+    {
+        _repositoryManager = repositoryManager;
+        _mapper = mapper;
+    }
     
     public async Task<IEnumerable<ProductDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        var owners = await _repositoryManager.OwnerRepository.GetAllAsync(cancellationToken);
-        var ownersDto = owners.Adapt<IEnumerable<OwnerDto>>();
-        return ownersDto;
+        var products = await _repositoryManager.ProductRepository.GetAllAsync(cancellationToken);
+        
+        return _mapper.Map<IEnumerable<ProductDto>>(products);;
     }
-    public async Task<ProductDto> GetByIdAsync(Guid ownerId, CancellationToken cancellationToken = default)
+    public async Task<ProductDto> GetByIdAsync(long ID, CancellationToken cancellationToken = default)
     {
-        var owner = await _repositoryManager.OwnerRepository.GetByIdAsync(ownerId, cancellationToken);
-        if (owner is null)
+        var product = await _repositoryManager.ProductRepository.GetByIdAsync(ID, cancellationToken);
+        if (product is null)
         {
-            throw new OwnerNotFoundException(ownerId);
+            throw new ProductNotFoundException(ID);
         }
-        var ownerDto = owner.Adapt<ProductDto>();
-        return ownerDto;
+        
+        return _mapper.Map<ProductDto>(product);
     }
-    public async Task<ProductDto> CreateAsync(OwnerForCreationDto ownerForCreationDto, CancellationToken cancellationToken = default)
+    public async Task CreateAsync(ProductForCreationDto productRequest, CancellationToken cancellationToken = default)
     {
-        var owner = ownerForCreationDto.Adapt<Owner>();
-        _repositoryManager.OwnerRepository.Insert(owner);
-        await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
-        return owner.Adapt<OwnerDto>();
-    }
-    public async Task UpdateAsync(Guid ownerId, OwnerForUpdateDto ownerForUpdateDto, CancellationToken cancellationToken = default)
-    {
-        var owner = await _repositoryManager.OwnerRepository.GetByIdAsync(ownerId, cancellationToken);
-        if (owner is null)
-        {
-            throw new OwnerNotFoundException(ownerId);
-        }
-        owner.Name = ownerForUpdateDto.Name;
-        owner.DateOfBirth = ownerForUpdateDto.DateOfBirth;
-        owner.Address = ownerForUpdateDto.Address;
+        var product = _mapper.Map<Product>(productRequest);
+        
+        _repositoryManager.ProductRepository.Insert(product);
+        
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
     }
-    public async Task DeleteAsync(Guid ownerId, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(long ID, ProductForUpdateDto productRequest, CancellationToken cancellationToken = default)
     {
-        var owner = await _repositoryManager.OwnerRepository.GetByIdAsync(ownerId, cancellationToken);
+        var product = await _repositoryManager.ProductRepository.GetByIdAsync(ID, cancellationToken);
+        if (product is null)
+        {
+            throw new ProductNotFoundException(ID);
+        }
+        product.ProductName = productRequest.ProductName;
+        product.Description = productRequest.Description;
+        await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+    }
+    public async Task DeleteAsync(long ID, CancellationToken cancellationToken = default)
+    {
+        var owner = await _repositoryManager.ProductRepository.GetByIdAsync(ID, cancellationToken);
         if (owner is null)
         {
-            throw new OwnerNotFoundException(ownerId);
+            throw new ProductNotFoundException(ID);
         }
-        _repositoryManager.OwnerRepository.Remove(owner);
+        _repositoryManager.ProductRepository.Remove(owner);
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

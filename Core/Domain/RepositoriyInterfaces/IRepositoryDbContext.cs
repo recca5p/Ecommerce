@@ -23,6 +23,6 @@ public partial interface IRepositoryDbContext
     Task<Int32> SaveChangesAsync(CancellationToken cancellationToken = default);
     #endregion
     
-    public DbSet<Product> Products { get; set; }
+    public DbSet<Product?> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
 }
