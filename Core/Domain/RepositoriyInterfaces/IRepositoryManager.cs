@@ -6,5 +6,6 @@ public interface IRepositoryManager
 {
     IProductRepository ProductRepository { get; }
     IUserRepository UserRepository { get; }
+    ICategoryRepository CategoryRepository { get; }
     IUnitOfWork UnitOfWork { get; }
 }
