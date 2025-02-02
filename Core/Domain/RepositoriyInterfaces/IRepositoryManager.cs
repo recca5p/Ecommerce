@@ -9,5 +9,10 @@ public interface IRepositoryManager
     ICategoryRepository CategoryRepository { get; }
     IProductVariantRepository ProductVariantRepository { get; }
     IImageRepository ImageRepository { get; }
+    IOrderRepository OrderRepository { get; }
+    ICartRepository CartRepository { get; }
+    ICartItemRepository CartItemRepository { get; }
+    IPaymentRepository PaymentRepository { get; }
+    IReviewRepository ReviewRepository { get; }
     IUnitOfWork UnitOfWork { get; }
 }
