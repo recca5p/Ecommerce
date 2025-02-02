@@ -30,6 +30,8 @@ public sealed class RepositoryDbContext : DbContext, IRepositoryDbContext
     public DbSet<Product?> Products { get; set; }
     public DbSet<User?> Users { get; set; }
     public DbSet<Category?> Categories { get; set; }
+    public DbSet<ProductVariant?> ProductVariants { get; set; }
+    public DbSet<Image?> Images { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryDbContext).Assembly);
 
