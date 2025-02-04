@@ -14,8 +14,8 @@ public sealed class RepositoryManager : IRepositoryManager
     private readonly Lazy<IOrderRepository> _lazyOrderRepository;
     private readonly Lazy<ICartRepository> _lazyCartRepository;
     private readonly Lazy<ICartItemRepository> _lazyCartItemRepository;
-    private readonly Lazy<IPaymentRepository> _lazyPaymentRepository; // Thêm dòng này
-    private readonly Lazy<IReviewRepository> _lazyReviewRepository;   // Thêm dòng này
+    private readonly Lazy<IPaymentRepository> _lazyPaymentRepository; // Thï¿½m dï¿½ng nï¿½y
+    private readonly Lazy<IReviewRepository> _lazyReviewRepository;   // Thï¿½m dï¿½ng nï¿½y
 
     public RepositoryManager(IRepositoryDbContext repositoryDbContext)
     {
@@ -27,8 +27,9 @@ public sealed class RepositoryManager : IRepositoryManager
         _lazyOrderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(repositoryDbContext));
         _lazyCartRepository = new Lazy<ICartRepository>(() => new CartRepository(repositoryDbContext));
         _lazyCartItemRepository = new Lazy<ICartItemRepository>(() => new CartItemRepository(repositoryDbContext));
-        _lazyPaymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(repositoryDbContext)); // Thêm dòng này
-        _lazyReviewRepository = new Lazy<IReviewRepository>(() => new ReviewRepository(repositoryDbContext));    // Thêm dòng này
+        _lazyPaymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(repositoryDbContext)); // Thï¿½m dï¿½ng nï¿½y
+        _lazyReviewRepository = new Lazy<IReviewRepository>(() => new ReviewRepository(repositoryDbContext));    // Thï¿½m dï¿½ng nï¿½y
+        _lazyUnitOfWork = new Lazy<IUnitOfWork>(() => new UnitOfWork(repositoryDbContext));
     }
 
     public IUnitOfWork UnitOfWork => _lazyUnitOfWork.Value;

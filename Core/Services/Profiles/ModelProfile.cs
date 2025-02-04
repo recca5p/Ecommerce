@@ -1,4 +1,5 @@
 using AutoMapper;
+using Contract.DTOs.Request;
 using Contract.DTOs.Response;
 using Domain.Entities;
 
@@ -8,10 +9,16 @@ public class ModelProfile : Profile
 {
     public ModelProfile()
     {
-        #region User
+        #region Product
 
         CreateMap<Product, ProductDto>();
 
+        #endregion
+
+        #region MyRegion
+        
+        CreateMap<CategoryForCreationDto, Category>();
+        
         #endregion
     }
 }

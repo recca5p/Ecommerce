@@ -23,7 +23,7 @@ namespace Ecommerce.API.Controllers;
         {
             try
             {
-                var products = _serviceManager.ProductService.GetAllAsync();
+                var products = await _serviceManager.ProductService.GetAllAsync();
                 
                 return Ok(products);
             }
