@@ -33,11 +33,11 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetCategory(long ID)
+    public async Task<IActionResult> GetCategory(long id)
     {
         try
         {
-            var category = await _serviceManager.CategoryService.GetByIdAsync(ID);
+            var category = await _serviceManager.CategoryService.GetByIdAsync(id);
             return Ok(category);
         }
         catch (Exception e)
