@@ -9,7 +9,7 @@ public class ModelProfile : Profile
 {
     public ModelProfile()
     {
-        #region User
+        #region Product
 
         CreateMap<User, UserDto>();
         CreateMap<UserForCreationDto, User>();
@@ -80,6 +80,12 @@ public class ModelProfile : Profile
         CreateMap<Payment, PaymentDto>();
         CreateMap<PaymentForCreationDto, Payment>();
 
+        #endregion
+
+        #region MyRegion
+        
+        CreateMap<CategoryForCreationDto, Category>();
+        
         #endregion
     }
 }

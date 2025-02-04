@@ -38,6 +38,8 @@ internal sealed class CategoryService : ICategoryService
     public async Task CreateAsync(CategoryForCreationDto categoryRequest, CancellationToken cancellationToken = default)
     {
         var category = _mapper.Map<Category>(categoryRequest);
+        category.CreatedDate = DateTime.UtcNow;
+        category.CreatedById = 123;
         _repositoryManager.CategoryRepository.Insert(category);
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
     }
