@@ -8,11 +8,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="AutoMapper" Version="13.0.1" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Core\Services.Abstraction\Services.Abstraction.csproj" />
+      <ProjectReference Include="..\Core\Services\Services.csproj" />
+      <ProjectReference Include="..\Infrastructure\Persistence\Persistence.csproj" />
     </ItemGroup>
 
 </Project>
