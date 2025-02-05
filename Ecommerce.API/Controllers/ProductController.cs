@@ -35,11 +35,11 @@ namespace Ecommerce.API.Controllers;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(long ID)
+        public async Task<ActionResult<Product>> GetProduct(long id)
         {
             try
             {
-                var product = _serviceManager.ProductService.GetByIdAsync(ID);
+                var product = _serviceManager.ProductService.GetByIdAsync(id);
                 
                 return Ok(product);
             }
@@ -67,11 +67,11 @@ namespace Ecommerce.API.Controllers;
         }
         
         [HttpPut("id")]
-        public async Task<ActionResult<Product>> Update(long ID, ProductForUpdateDto productForUpdate)
+        public async Task<ActionResult<Product>> Update(long id, ProductForUpdateDto productForUpdate)
         {
             try
             {
-                await _serviceManager.ProductService.UpdateAsync(ID, productForUpdate);
+                await _serviceManager.ProductService.UpdateAsync(id, productForUpdate);
 
                 return NoContent();
             }

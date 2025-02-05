@@ -40,6 +40,10 @@ internal sealed class UserService : IUserService
     {
         var user = _mapper.Map<User>(userRequest);
 
+        user.CreatedDate = DateTime.UtcNow;
+        user.CreatedById = 123;
+
+
         _repositoryManager.UserRepository.Insert(user);
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
