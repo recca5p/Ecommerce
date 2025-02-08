@@ -1,5 +1,6 @@
 using Contract.DTOs.Request;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
@@ -18,6 +19,7 @@ namespace Ecommerce.API.Controllers;
             _logger = logger;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
@@ -34,6 +36,7 @@ namespace Ecommerce.API.Controllers;
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(long id)
         {
@@ -50,6 +53,7 @@ namespace Ecommerce.API.Controllers;
             }
         }
         
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost]
         public async Task<ActionResult<Product>> Create(ProductForCreationDto productForCreation)
         {
@@ -66,6 +70,7 @@ namespace Ecommerce.API.Controllers;
             }
         }
         
+        [Authorize]
         [HttpPut("id")]
         public async Task<ActionResult<Product>> Update(long id, ProductForUpdateDto productForUpdate)
         {

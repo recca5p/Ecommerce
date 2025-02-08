@@ -12,10 +12,13 @@ internal sealed class UserRepository : IUserRepository
     public UserRepository(IRepositoryDbContext dbContext) => _dbContext = dbContext;
 
     public async Task<IEnumerable<User?>> GetAllAsync(CancellationToken cancellationToken = default) =>
-        await _dbContext.Users.Where(u => u.IsDeleted == false).ToListAsync(cancellationToken);
+        await _dbContext.Users.ToListAsync(cancellationToken);
 
     public async Task<User?> GetByIdAsync(long ID, CancellationToken cancellationToken = default) =>
-        await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == ID && u.IsDeleted == false, cancellationToken);
+        await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == ID, cancellationToken);
+    
+    public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default) =>
+        await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
 
     public void Insert(User? user) => _dbContext.Users.Add(user);
 

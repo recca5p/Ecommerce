@@ -11,4 +11,5 @@ public interface IServiceManager
     IImageService ImageService { get; }
     IPaymentService PaymentService { get; }
     IReviewService ReviewService { get; }
+    IAuthService AuthService { get; }
 }

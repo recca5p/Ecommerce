@@ -1,11 +1,14 @@
 using AutoMapper;
+using Contract.Models;
 using Domain.RepositoriyInterfaces;
+using Microsoft.Extensions.Options;
 using Services.Abstraction;
 
 namespace Services;
 
 public sealed class ServiceManager : IServiceManager
 {
+    private readonly AppSettings _appSettings;
     private readonly Lazy<IProductService> _lazyProductService;
     private readonly Lazy<IProductVariantService> _lazyProductVariantService;
     private readonly Lazy<ICategoryService> _lazyCategoryService;
@@ -15,9 +18,11 @@ public sealed class ServiceManager : IServiceManager
     private readonly Lazy<ICartService> _lazyCartService;
     private readonly Lazy<IPaymentService> _lazyPaymentService; // Payment Service
     private readonly Lazy<IReviewService> _lazyReviewService;   // Review Service
+    private readonly Lazy<IAuthService> _lazyAuthService;
 
-    public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper)
+    public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, IOptions<AppSettings> appSettings)
     {
+        _appSettings = appSettings.Value;
         _lazyProductService = new Lazy<IProductService>(() => new ProductService(repositoryManager, mapper));
         _lazyProductVariantService = new Lazy<IProductVariantService>(() => new ProductVariantService(repositoryManager, mapper));
         _lazyCategoryService = new Lazy<ICategoryService>(() => new CategoryService(repositoryManager, mapper));
@@ -27,6 +32,7 @@ public sealed class ServiceManager : IServiceManager
         _lazyCartService = new Lazy<ICartService>(() => new CartService(repositoryManager, mapper));
         _lazyPaymentService = new Lazy<IPaymentService>(() => new PaymentService(repositoryManager, mapper)); // Add Payment
         _lazyReviewService = new Lazy<IReviewService>(() => new ReviewService(repositoryManager, mapper));    // Add Review
+        _lazyAuthService = new Lazy<IAuthService>(() => new AuthService(repositoryManager, _appSettings.PasetoSettings.SecretKey));
     }
 
     public IProductService ProductService => _lazyProductService.Value;
@@ -38,4 +44,5 @@ public sealed class ServiceManager : IServiceManager
     public ICartService CartService => _lazyCartService.Value;
     public IPaymentService PaymentService => _lazyPaymentService.Value; // Expose Payment
     public IReviewService ReviewService => _lazyReviewService.Value;    // Expose Review
+    public IAuthService AuthService => _lazyAuthService.Value;
 }

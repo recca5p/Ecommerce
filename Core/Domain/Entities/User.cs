@@ -20,6 +20,9 @@ public class User : AuditEntity<long>
 
     [Required]
     public string Password { get; set; }
+    
+    [Required]
+    public bool IsAdmin { get; set; } = false;
 
     public virtual IList<Cart> Carts { get; set; } = new List<Cart>();
 
