@@ -26,17 +26,33 @@ internal sealed class CartService : ICartService
 
     public async Task AddItemAsync(long userId, CartItemForCreationDto cartItemDto, CancellationToken cancellationToken = default)
     {
+        var variant = await _repositoryManager.ProductVariantRepository.GetByIdAsync(cartItemDto.VariantId, cancellationToken);
+        
+        if (variant == null)
+            throw new Exception("Variant not found");
+        
         var cart = await _repositoryManager.CartRepository.GetByUserIdAsync(userId, cancellationToken);
+        var cartItem = _mapper.Map<CartItem>(cartItemDto);
+
         if (cart == null)
         {
-            cart = new Cart { UserId = userId };
+
+            cart = new Cart
+            {
+                UserId = userId, 
+                TotalPrice = variant.Price * cartItemDto.Quantity,
+                CartItems = new List<CartItem>(){cartItem},
+            };
             _repositoryManager.CartRepository.Insert(cart);
         }
+        else
+        {
+            cart.TotalPrice += (variant.Price * cartItemDto.Quantity);
 
-        var cartItem = _mapper.Map<CartItem>(cartItemDto);
-        cartItem.CartId = cart.CartId;
+            cart.CartItems.Add(cartItem);
 
-        _repositoryManager.CartItemRepository.Insert(cartItem);
+            _repositoryManager.CartRepository.Update(cart);
+        }
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
     }
 

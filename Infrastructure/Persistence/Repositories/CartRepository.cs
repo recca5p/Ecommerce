@@ -23,4 +23,7 @@ internal sealed class CartRepository : ICartRepository
     {
         _dbContext.Carts.Add(cart);
     }
+    
+    public void Update(Cart? cart) => _dbContext.Carts.Update(cart);
+
 }

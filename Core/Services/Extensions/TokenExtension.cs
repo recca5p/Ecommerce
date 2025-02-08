@@ -24,7 +24,8 @@ public static class TokenExtension
             {
                 { "email", user.Email },
                 { "name", user.Name },
-                { "isAdmin", user.IsAdmin }
+                { "isAdmin", user.IsAdmin },
+                { "userId", user.UserId },
             }
         };
 
@@ -70,7 +71,7 @@ public static class TokenExtension
             {
                 { "subject", pasetoInstance.Subject },
                 { "expiration", pasetoInstance.Expiration },
-                { "issuedAt", pasetoInstance.IssuedAt }
+                { "issuedAt", pasetoInstance.IssuedAt },
             };
 
             if (pasetoInstance.AdditionalClaims != null)
