@@ -7,15 +7,15 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Ecommerce.API.csproj", "./"]
-RUN dotnet restore "Ecommerce.API.csproj"
+COPY . ./
+RUN dotnet restore "./Ecommerce.API/Ecommerce.sln"
 COPY . .
 WORKDIR "/src/"
-RUN dotnet build "Ecommerce.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build -c Release "./Ecommerce.API/Ecommerce.sln"
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Ecommerce.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish -c Release -o /app/publish "./Ecommerce.API/Ecommerce.sln"
 
 FROM base AS final
 WORKDIR /app
