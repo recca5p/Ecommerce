@@ -34,11 +34,11 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<User>> GetUser(long ID)
+    public async Task<ActionResult<User>> GetUser(long id)
     {
         try
         {
-            var user = await _serviceManager.UserService.GetByIdAsync(ID);
+            var user = await _serviceManager.UserService.GetByIdAsync(id);
             return Ok(user);
         }
         catch (Exception e)
@@ -56,7 +56,7 @@ public class UserController : ControllerBase
             // Call the service to create the user
             var createdUser = await _serviceManager.UserService.CreateAsync(userForCreation);
 
-            // Return the newly created user's ID and details
+            // Return the newly created user's id and details
             return CreatedAtAction(nameof(GetUser), new { id = createdUser.UserId }, createdUser);
         }
         catch (Exception e)
@@ -68,11 +68,11 @@ public class UserController : ControllerBase
 
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<User>> Update(long ID, UserForUpdateDto userForUpdate)
+    public async Task<ActionResult<User>> Update(long id, UserForUpdateDto userForUpdate)
     {
         try
         {
-            await _serviceManager.UserService.UpdateAsync(ID, userForUpdate);
+            await _serviceManager.UserService.UpdateAsync(id, userForUpdate);
             return NoContent();
         }
         catch (Exception e)
@@ -83,11 +83,11 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<User>> Delete(long ID)
+    public async Task<ActionResult<User>> Delete(long id)
     {
         try
         {
-            await _serviceManager.UserService.DeleteAsync(ID);
+            await _serviceManager.UserService.DeleteAsync(id);
             return NoContent();
         }
         catch (Exception e)

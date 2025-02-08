@@ -63,11 +63,11 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(long ID, CategoryForUpdateDto categoryForUpdate)
+    public async Task<IActionResult> Update(long id, CategoryForUpdateDto categoryForUpdate)
     {
         try
         {
-            await _serviceManager.CategoryService.UpdateAsync(ID, categoryForUpdate);
+            await _serviceManager.CategoryService.UpdateAsync(id, categoryForUpdate);
             return NoContent();
         }
         catch (Exception e)
@@ -78,11 +78,11 @@ public class CategoryController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(long ID)
+    public async Task<IActionResult> Delete(long id)
     {
         try
         {
-            await _serviceManager.CategoryService.DeleteAsync(ID);
+            await _serviceManager.CategoryService.DeleteAsync(id);
             return NoContent();
         }
         catch (Exception e)

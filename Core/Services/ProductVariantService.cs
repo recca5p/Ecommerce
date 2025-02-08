@@ -40,6 +40,10 @@ internal sealed class ProductVariantService : IProductVariantService
         var variant = _mapper.Map<ProductVariant>(variantDto);
         variant.ProductId = productId;
 
+        variant.CreatedDate = DateTime.UtcNow;
+        variant.CreatedById = 123;
+
+
         _repositoryManager.ProductVariantRepository.Insert(variant);
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
     }

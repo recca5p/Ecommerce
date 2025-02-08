@@ -38,7 +38,10 @@ internal sealed class ProductService : IProductService
     public async Task CreateAsync(ProductForCreationDto productRequest, CancellationToken cancellationToken = default)
     {
         var product = _mapper.Map<Product>(productRequest);
-        
+
+        product.CreatedDate = DateTime.UtcNow;
+        product.CreatedById = 123;
+
         _repositoryManager.ProductRepository.Insert(product);
         
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
