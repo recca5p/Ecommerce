@@ -12,7 +12,12 @@ internal sealed class ProductRepository : IProductRepository
     public ProductRepository(IRepositoryDbContext dbContext) => _dbContext = dbContext;
     
     public async Task<IEnumerable<Product?>> GetAllAsync(CancellationToken cancellationToken = default) =>
-        await _dbContext.Products.Where(_ => _.IsDeleted == false).ToListAsync( cancellationToken);
+        await _dbContext.Products
+            .Include(p => p.Category)
+            .Include(p => p.Images)
+            .OrderByDescending(p => p.CreatedDate)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     
     public async Task<Product?> GetByIdAsync(long ID, CancellationToken cancellationToken = default) =>
         await _dbContext.Products.FirstOrDefaultAsync(x => x.ProductId == ID && x.IsDeleted == false, cancellationToken);
