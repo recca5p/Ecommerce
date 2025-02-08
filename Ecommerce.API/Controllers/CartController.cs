@@ -1,4 +1,5 @@
 using Contract.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
@@ -17,6 +18,7 @@ public class CartController : ControllerBase
         _logger = logger;
     }
 
+    [Authorize]
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetCart(long userId)
     {
@@ -32,6 +34,7 @@ public class CartController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost("{userId}")]
     public async Task<IActionResult> AddItemToCart(long userId, [FromBody] CartItemForCreationDto cartItemDto)
     {
@@ -47,6 +50,7 @@ public class CartController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut("{userId}/update-item/{itemId}")]
     public async Task<IActionResult> UpdateCartItem(long userId, long itemId, [FromBody] CartItemForUpdateDto cartItemDto)
     {
@@ -62,6 +66,7 @@ public class CartController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("{userId}/remove-item/{itemId}")]
     public async Task<IActionResult> RemoveCartItem(long userId, long itemId)
     {

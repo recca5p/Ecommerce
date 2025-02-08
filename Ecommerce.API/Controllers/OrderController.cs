@@ -1,4 +1,5 @@
 using Contract.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
@@ -17,6 +18,7 @@ public class OrderController : ControllerBase
         _logger = logger;
     }
 
+    [Authorize]
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetOrdersByUserId(long userId)
     {
@@ -32,6 +34,7 @@ public class OrderController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("{id}/details")]
     public async Task<IActionResult> GetOrderDetails(long id)
     {
@@ -47,6 +50,7 @@ public class OrderController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateOrder([FromBody] OrderForCreationDto orderDto)
     {
@@ -62,6 +66,7 @@ public class OrderController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateOrder(long id, [FromBody] OrderForUpdateDto orderDto)
     {
@@ -77,6 +82,7 @@ public class OrderController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrder(long id)
     {

@@ -1,4 +1,5 @@
 using Contract.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
@@ -17,6 +18,7 @@ public class PaymentController : ControllerBase
         _logger = logger;
     }
 
+    [Authorize]
     [HttpGet("{userId}")]
     public async Task<IActionResult> GetPaymentsByUserId(long userId)
     {
@@ -24,6 +26,7 @@ public class PaymentController : ControllerBase
         return Ok(payments);
     }
 
+    [Authorize]
     [HttpGet("{paymentId}/details")]
     public async Task<IActionResult> GetPaymentDetails(long paymentId)
     {
@@ -31,6 +34,7 @@ public class PaymentController : ControllerBase
         return Ok(paymentDetails);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreatePayment([FromBody] PaymentForCreationDto paymentDto)
     {
@@ -38,6 +42,7 @@ public class PaymentController : ControllerBase
         return Created(string.Empty, null);
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpPut("{paymentId}")]
     public async Task<IActionResult> UpdatePayment(long paymentId, [FromBody] PaymentForUpdateDto paymentDto)
     {
@@ -45,6 +50,7 @@ public class PaymentController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{paymentId}")]
     public async Task<IActionResult> DeletePayment(long paymentId)
     {

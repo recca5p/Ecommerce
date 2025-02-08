@@ -1,4 +1,5 @@
 using Contract.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
@@ -17,6 +18,7 @@ public class ReviewController : ControllerBase
         _logger = logger;
     }
 
+    [AllowAnonymous]
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetReviewsByProductId(long productId)
     {
@@ -24,6 +26,7 @@ public class ReviewController : ControllerBase
         return Ok(reviews);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateReview([FromBody] ReviewForCreationDto reviewDto)
     {

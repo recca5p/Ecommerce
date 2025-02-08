@@ -1,4 +1,5 @@
 using Contract.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
@@ -17,6 +18,7 @@ public class ImageController : ControllerBase
         _logger = logger;
     }
 
+    [AllowAnonymous]
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetImagesByProductId(long productId)
     {
@@ -32,6 +34,7 @@ public class ImageController : ControllerBase
         }
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpPost("{productId}")]
     public async Task<IActionResult> AddImage(long productId, [FromBody] ImageForCreationDto imageDto)
     {
@@ -47,6 +50,7 @@ public class ImageController : ControllerBase
         }
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteImage(long id)
     {

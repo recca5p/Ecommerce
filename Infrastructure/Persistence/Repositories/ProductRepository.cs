@@ -15,13 +15,14 @@ internal sealed class ProductRepository : IProductRepository
         await _dbContext.Products
             .Include(p => p.Category)
             .Include(p => p.Images)
+            .Include(p => p.Reviews)
             .OrderByDescending(p => p.CreatedDate)
             .AsNoTracking()
             .ToListAsync(cancellationToken);
-    
+
     public async Task<Product?> GetByIdAsync(long ID, CancellationToken cancellationToken = default) =>
-        await _dbContext.Products.FirstOrDefaultAsync(x => x.ProductId == ID && x.IsDeleted == false, cancellationToken);
-    
+        await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == ID && !p.IsDeleted, cancellationToken);
+
     public void Insert(Product? product) => _dbContext.Products.Add(product);
     
     public void Update(Product? product) => _dbContext.Products.Update(product);

@@ -69,8 +69,8 @@ namespace Ecommerce.API.Controllers;
                 throw;
             }
         }
-        
-        [Authorize]
+
+        [Authorize(Policy = "AdminOnly")]
         [HttpPut("id")]
         public async Task<ActionResult<Product>> Update(long id, ProductForUpdateDto productForUpdate)
         {
@@ -86,7 +86,8 @@ namespace Ecommerce.API.Controllers;
                 throw;
             }
         }
-        
+
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("id")]
         public async Task<ActionResult<Product>> Delete(ProductForCreationDto productForCreation)
         {

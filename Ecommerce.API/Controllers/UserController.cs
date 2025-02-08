@@ -20,6 +20,7 @@ public class UserController : ControllerBase
         _logger = logger;
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
@@ -35,6 +36,7 @@ public class UserController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> GetUser(long id)
     {
@@ -69,7 +71,7 @@ public class UserController : ControllerBase
         }
     }
 
-
+    [Authorize(Policy = "AdminOnly")]
     [HttpPut("{id}")]
     public async Task<ActionResult<User>> Update(long id, UserForUpdateDto userForUpdate)
     {
@@ -85,6 +87,7 @@ public class UserController : ControllerBase
         }
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id}")]
     public async Task<ActionResult<User>> Delete(long id)
     {

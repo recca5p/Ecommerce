@@ -1,4 +1,5 @@
 using Contract.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstraction;
 
@@ -17,6 +18,7 @@ public class ProductVariantController : ControllerBase
         _logger = logger;
     }
 
+    [AllowAnonymous]
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetVariantsByProductId(long productId)
     {
@@ -32,6 +34,7 @@ public class ProductVariantController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpGet("variant/{id}")]
     public async Task<IActionResult> GetVariantById(long id)
     {
@@ -47,6 +50,7 @@ public class ProductVariantController : ControllerBase
         }
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpPost("{productId}")]
     public async Task<IActionResult> CreateVariant(long productId, [FromBody] ProductVariantForCreationDto variantDto)
     {
@@ -62,6 +66,7 @@ public class ProductVariantController : ControllerBase
         }
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateVariant(long id, [FromBody] ProductVariantForUpdateDto variantDto)
     {
@@ -77,6 +82,7 @@ public class ProductVariantController : ControllerBase
         }
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteVariant(long id)
     {
