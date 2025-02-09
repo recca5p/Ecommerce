@@ -67,11 +67,8 @@ builder.Services.AddSwaggerGen(options =>
 string connectionString = builder.Configuration.GetSection("AppSettings:DatabaseConnectionString").Value 
                           ?? throw new InvalidOperationException("Can not get DatabaseConnectionString");
 
-builder.Services.AddScoped<IRepositoryDbContext>(x =>
-    new RepositoryDbContext(
-        new DbContextOptionsBuilder<RepositoryDbContext>()
-            .UseNpgsql(connectionString)
-            .Options));
+builder.Services.AddDbContext<IRepositoryDbContext, RepositoryDbContext>(options =>
+    options.UseNpgsql(connectionString));
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 

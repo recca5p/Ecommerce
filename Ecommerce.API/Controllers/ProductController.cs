@@ -42,7 +42,7 @@ namespace Ecommerce.API.Controllers;
         {
             try
             {
-                var product = _serviceManager.ProductService.GetByIdAsync(id);
+                var product = await _serviceManager.ProductService.GetByIdAsync(id);
                 
                 return Ok(product);
             }

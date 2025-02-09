@@ -21,7 +21,12 @@ internal sealed class ProductRepository : IProductRepository
             .ToListAsync(cancellationToken);
 
     public async Task<Product?> GetByIdAsync(long ID, CancellationToken cancellationToken = default) =>
-        await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == ID && !p.IsDeleted, cancellationToken);
+        await _dbContext.Products
+            .Include(p => p.Category)
+            .Include(p => p.Images)
+            .Include(p => p.Reviews)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.ProductId == ID, cancellationToken);
 
     public void Insert(Product? product) => _dbContext.Products.Add(product);
     
