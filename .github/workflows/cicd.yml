@@ -26,13 +26,13 @@ jobs:
           dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
         
       - name: Restore
-        run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
+        run: dotnet restore "$./{{ env.WORKING_DIRECTORY }}/Ecommerce.sln"
         
       - name: Build
-        run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+        run: dotnet build "$./{{ env.WORKING_DIRECTORY }}/Ecommerce.sln" --configuration ${{ env.CONFIGURATION }} --no-restore
         
       - name: Test
-        run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
+        run: dotnet test "$./{{ env.WORKING_DIRECTORY }}/Ecommerce.sln" --no-build
 
       - name: Install dotnet-ef tool
         run: dotnet tool install --global dotnet-ef
