@@ -20,8 +20,10 @@ public class CustomAuthHandler : AuthenticationHandler<AuthenticationSchemeOptio
         {
             return AuthenticateResult.Fail("Missing Token");
         }
+        
+        TokenExtension.SetToken(token);
 
-        var claims = TokenExtension.GetTokenClaims(token);
+        var claims = TokenExtension.GetTokenClaims();
         if (claims == null)
         {
             return AuthenticateResult.Fail("Invalid Token");

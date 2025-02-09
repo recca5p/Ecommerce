@@ -20,4 +20,4 @@ RUN dotnet publish -c Release -o /app/publish "./Ecommerce.API/Ecommerce.sln"
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Ecommerce.API.dll"]
+ENTRYPOINT ["dotnet", "Ecommerce.Aan PI.dll"]

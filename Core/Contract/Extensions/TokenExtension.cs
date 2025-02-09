@@ -1,14 +1,27 @@
-using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using Domain.Entities;
 using Paseto.Authentication;
 
 public static class TokenExtension
 {
     private static byte[] _secretKey;
+    private static readonly AsyncLocal<string> _token = new();
 
     public static void Configure(string secretKey)
     {
-        _secretKey = Encoding.UTF8.GetBytes(secretKey);
+        _secretKey = Convert.FromBase64String(secretKey);
+    }
+
+    public static void SetToken(string token)
+    {
+        _token.Value = token;
+    }
+
+    public static string GetToken()
+    {
+        return _token.Value;
     }
 
     public static string GenerateAccessToken(User user)
@@ -59,11 +72,14 @@ public static class TokenExtension
         }
     }
 
-    public static Dictionary<string, object> GetTokenClaims(string token)
+    public static Dictionary<string, object> GetTokenClaims()
     {
+        if (string.IsNullOrEmpty(_token.Value))
+            return null;
+
         try
         {
-            var pasetoInstance = PasetoUtility.Decrypt(_secretKey, token, validateTimes: true);
+            var pasetoInstance = PasetoUtility.Decrypt(_secretKey, _token.Value, validateTimes: true);
             if (pasetoInstance == null)
                 return null;
 
@@ -90,12 +106,17 @@ public static class TokenExtension
         }
     }
 
-    public static string GetClaimValue(string token, string claimType)
+    public static string GetClaimValue(string claimType)
     {
-        var claims = GetTokenClaims(token);
+        var claims = GetTokenClaims();
         if (claims == null || !claims.ContainsKey(claimType))
             return null;
 
         return claims[claimType]?.ToString();
+    }
+
+    public static string GetUserId()
+    {
+        return GetClaimValue("userId");
     }
 }

@@ -43,7 +43,7 @@ public class AuthService : IAuthService
         var isValid = TokenExtension.ValidateToken(token);
         if (!isValid) return null;
 
-        var payload = TokenExtension.GetTokenClaims(token);
+        var payload = TokenExtension.GetTokenClaims();
         var email = payload?["email"]?.ToString();
 
         if (string.IsNullOrEmpty(email))

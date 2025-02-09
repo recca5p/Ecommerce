@@ -55,4 +55,26 @@ public class AuthController : ControllerBase
 
         return Ok(new { message = "User registered successfully" });
     }
+    
+    [HttpGet]
+    [Route("api/profile")]
+    public IActionResult GetProfile()
+    {
+        var claims = TokenExtension.GetTokenClaims();
+
+        if (claims == null)
+        {
+            return Unauthorized("Invalid or expired token");
+        }
+
+        var profile = new
+        {
+            UserId = claims.ContainsKey("userId") ? claims["userId"]?.ToString() : null,
+            Name = claims.ContainsKey("name") ? claims["name"]?.ToString() : null,
+            Email = claims.ContainsKey("email") ? claims["email"]?.ToString() : null,
+            IsAdmin = claims.ContainsKey("isAdmin") ? (bool)claims["isAdmin"] : false
+        };
+
+        return Ok(profile);
+    }
 }
