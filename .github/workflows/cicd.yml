@@ -112,8 +112,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i $EC2_KEY_PATH $EC2_USER@$EC2_HOST <<EOF
             # Clean up previous containers and images
-            sudo docker stop vng-app || true
-            sudo docker rm -f vng-app || true
+            sudo docker stop ecommerce || true
+            sudo docker rm -f ecommerce || true
             sudo docker rmi -f $DOCKER_IMAGE || true
             
             # Pull the new Docker image
