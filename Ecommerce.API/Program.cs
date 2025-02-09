@@ -90,6 +90,16 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()   // Allow requests from any origin
+            .AllowAnyMethod()   // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.)
+            .AllowAnyHeader();  // Allow all headers
+    });
+});
+
 
 TokenExtension.Configure(secretKey);
 
@@ -107,6 +117,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseCors("AllowAll");
 
 app.MapControllers();
 
