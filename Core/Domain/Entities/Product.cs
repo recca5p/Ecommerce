@@ -18,7 +18,7 @@ public class Product : AuditEntity<long>
 
     public long CategoryId { get; set; }
 
-    public virtual Category Category { get; set; }
+    public virtual Category? Category { get; set; }
 
     // Add navigation property for ProductVariants
     public virtual IList<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();

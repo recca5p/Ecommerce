@@ -55,16 +55,21 @@ internal sealed class ProductService : IProductService
         }
         product.ProductName = productRequest.ProductName;
         product.Description = productRequest.Description;
+        product.CategoryId = productRequest.CategoryId;
+        product.Category = await _repositoryManager.CategoryRepository.GetByIdAsync(productRequest.CategoryId, cancellationToken);
+        
+        _repositoryManager.ProductRepository.Update(product);
+        
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
     }
     public async Task DeleteAsync(long ID, CancellationToken cancellationToken = default)
     {
-        var owner = await _repositoryManager.ProductRepository.GetByIdAsync(ID, cancellationToken);
-        if (owner is null)
+        var product = await _repositoryManager.ProductRepository.GetByIdAsync(ID, cancellationToken);
+        if (product is null)
         {
             throw new ProductNotFoundException(ID);
         }
-        _repositoryManager.ProductRepository.Remove(owner);
+        _repositoryManager.ProductRepository.Remove(product);
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

@@ -89,11 +89,11 @@ namespace Ecommerce.API.Controllers;
 
         [Authorize(Policy = "AdminOnly")]
         [HttpDelete("id")]
-        public async Task<ActionResult<Product>> Delete(ProductForCreationDto productForCreation)
+        public async Task<ActionResult<Product>> Delete(long id)
         {
             try
             {
-                await _serviceManager.ProductService.CreateAsync(productForCreation);
+                await _serviceManager.ProductService.DeleteAsync(id);
                 
                 return Created();
             }
