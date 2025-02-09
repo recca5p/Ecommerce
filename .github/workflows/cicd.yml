@@ -111,11 +111,10 @@ jobs:
           DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/ecommerce:${{ github.sha }}
         run: |
           ssh -o StrictHostKeyChecking=no -i $EC2_KEY_PATH $EC2_USER@$EC2_HOST <<EOF
-            # Stop and remove any running containers related to "ecommerce"
-            running_containers=\$(sudo docker ps -q --filter "name=ecommerce")
-            if [ ! -z "\$running_containers" ]; then
-              sudo docker stop \$running_containers
-              sudo docker rm -f \$running_containers
+            # Stop and remove any existing container named "ecommerce"
+            if sudo docker ps -a --format '{{.Names}}' | grep -q '^ecommerce$'; then
+              sudo docker stop ecommerce
+              sudo docker rm ecommerce
             fi
         
             # Free port 3000 if still in use
@@ -125,7 +124,7 @@ jobs:
             fi
         
             # Remove old images related to "ecommerce"
-            old_images=\$(sudo docker images -q "ecommerce*")
+            old_images=\$(sudo docker images -q "***/ecommerce")
             if [ ! -z "\$old_images" ]; then
               sudo docker rmi -f \$old_images
             fi
