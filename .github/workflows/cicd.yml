@@ -111,17 +111,30 @@ jobs:
           DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/ecommerce:${{ github.sha }}
         run: |
           ssh -o StrictHostKeyChecking=no -i $EC2_KEY_PATH $EC2_USER@$EC2_HOST <<EOF
-            # Clean up previous containers and images
-            sudo docker stop ecommerce || true
-            sudo docker rm -f ecommerce || true
-            sudo docker rmi -f $DOCKER_IMAGE || true
-            
-            # Pull the new Docker image
+            # Stop and remove any existing container named "ecommerce"
+            if sudo docker ps -a --format '{{.Names}}' | grep -q '^ecommerce$'; then
+              sudo docker stop ecommerce --force
+              sudo docker rm ecommerce --force
+            fi
+        
+            # Free port 3000 if still in use
+            existing_process=\$(sudo lsof -t -i:3000)
+            if [ ! -z "\$existing_process" ]; then
+              sudo kill -9 \$existing_process --force
+            fi
+        
+            # Remove old images related to "ecommerce"
+            old_images=\$(sudo docker images -q "***/ecommerce")
+            if [ ! -z "\$old_images" ]; then
+              sudo docker rmi -f \$old_images
+            fi
+        
+            # Pull the latest Docker image
             sudo docker pull $DOCKER_IMAGE
-            
-            # Run the new container with Nginx and Let's Encrypt
+        
+            # Run the new container
             sudo docker run -dp 3000:8080 \
-              --name vng-app \
+              --name ecommerce \
               --mount type=volume,source=letsencrypt,target=/etc/letsencrypt \
               $DOCKER_IMAGE
           EOF
