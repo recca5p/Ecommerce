@@ -12,10 +12,15 @@ internal sealed class OrderRepository : IOrderRepository
     {
         _dbContext = dbContext;
     }
+    
+    public async Task<IEnumerable<Order>> GetAll(CancellationToken cancellationToken = default)
+    {
+        return await _dbContext.Orders.ToListAsync(cancellationToken);
+    }
 
     public async Task<IEnumerable<Order>> GetAllByUserIdAsync(long userId, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Orders.Where(o => o.UserId == userId && !o.IsDeleted).ToListAsync(cancellationToken);
+        return await _dbContext.Orders.Where(o => o.UserId == userId).ToListAsync(cancellationToken);
     }
 
     public async Task<Order?> GetByIdWithDetailsAsync(long id, CancellationToken cancellationToken = default)

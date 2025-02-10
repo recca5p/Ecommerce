@@ -19,12 +19,12 @@ public class OrderController : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("{userId}")]
-    public async Task<IActionResult> GetOrdersByUserId(long userId)
+    [HttpGet]
+    public async Task<IActionResult> GetOrders()
     {
         try
         {
-            var orders = await _serviceManager.OrderService.GetAllByUserIdAsync(userId);
+            var orders = await _serviceManager.OrderService.GetAll();
             return Ok(orders);
         }
         catch (Exception e)

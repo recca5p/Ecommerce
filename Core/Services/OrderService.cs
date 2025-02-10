@@ -18,9 +18,14 @@ internal sealed class OrderService : IOrderService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<OrderDto>> GetAllByUserIdAsync(long userId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<OrderDto>> GetAll(CancellationToken cancellationToken = default)
     {
-        var orders = await _repositoryManager.OrderRepository.GetAllByUserIdAsync(userId, cancellationToken);
+        IEnumerable<Order> orders;
+        if (TokenExtension.GetRole())
+            orders = await _repositoryManager.OrderRepository.GetAll(cancellationToken);
+        else
+            orders = await _repositoryManager.OrderRepository.GetAllByUserIdAsync(long.Parse(TokenExtension.GetUserId()), cancellationToken);
+
         return _mapper.Map<IEnumerable<OrderDto>>(orders);
     }
 

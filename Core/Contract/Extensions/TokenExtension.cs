@@ -119,4 +119,9 @@ public static class TokenExtension
     {
         return GetClaimValue("userId");
     }
+    
+    public static bool GetRole()
+    {
+        return bool.Parse(GetClaimValue("isAdmin"));
+    }
 }
