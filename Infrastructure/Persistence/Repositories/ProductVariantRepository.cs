@@ -31,6 +31,11 @@ internal sealed class ProductVariantRepository : IProductVariantRepository
     {
         _dbContext.ProductVariants.Add(variant);
     }
+    
+    public void Update(ProductVariant variant)
+    {
+        _dbContext.ProductVariants.Update(variant);
+    }
 
     public void Remove(ProductVariant variant)
     {
