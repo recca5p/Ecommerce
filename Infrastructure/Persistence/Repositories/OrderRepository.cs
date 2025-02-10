@@ -1,4 +1,4 @@
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.RepositoriyInterfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +15,8 @@ internal sealed class OrderRepository : IOrderRepository
     
     public async Task<IEnumerable<Order>> GetAll(CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Orders.ToListAsync(cancellationToken);
+        return await _dbContext.Orders
+            .Include(o => o.OrderDetails).ToListAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<Order>> GetAllByUserIdAsync(long userId, CancellationToken cancellationToken = default)

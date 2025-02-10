@@ -20,8 +20,5 @@ internal sealed class ReviewRepository : IReviewRepository
             .ToListAsync(cancellationToken);
     }
 
-    public void Insert(Review review)
-    {
-        _dbContext.Reviews.Add(review);
-    }
+    public void Insert(Review? review) => _dbContext.Reviews.Add(review);
 }
