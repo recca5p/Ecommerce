@@ -11,6 +11,8 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
+        //Set token for authen
+        TokenExtension.SetToken(context.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", ""));
         try
         {
             await next(context);

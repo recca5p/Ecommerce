@@ -82,11 +82,13 @@ public sealed class RepositoryDbContext : DbContext, IRepositoryDbContext
             if (entry.State == EntityState.Added)
             {
                 entry.Entity.CreatedDate = DateTime.UtcNow;
+                entry.Entity.CreatedById = long.Parse(TokenExtension.GetUserId());
             }
 
             if (entry.State == EntityState.Modified)
             {
                 entry.Entity.UpdatedDate = DateTime.UtcNow;
+                entry.Entity.UpdatedById = long.Parse(TokenExtension.GetUserId());
             }
         }
     }
